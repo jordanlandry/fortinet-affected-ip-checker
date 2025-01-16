@@ -13,7 +13,7 @@ async function fetchFileData() {
     const data = await response.text();
     const lines = data.split("\n");
     lines.forEach(line => {
-      const ip = line.trim();
+      const ip = line.trim().split(":")[0];
       if (ip) {
         ips.add(ip);
       }
@@ -27,7 +27,8 @@ async function fetchFileData() {
 
 fetchFileData().then(data => {
   if (data.size === 0)
-    document.getElementById("loading").innerText = "No data found, please try again later";
+    document.getElementById("loading").innerText =
+      "No data found, please try again later";
   else {
     document.getElementById("loading").style.display = "none";
     const textArea = document.createElement("textarea");
@@ -41,7 +42,7 @@ fetchFileData().then(data => {
     button.onclick = () => {
       const ips = textArea.value
         .split(/[\s,]+/)
-        .map(ip => ip.trim())
+        .map(ip => ip.trim().split(":")[0])
         .filter(ip => ip !== "");
 
       const affectedIps = new Set([...data].filter(x => ips.includes(x)));
@@ -79,7 +80,7 @@ fetchFileData().then(data => {
         document.body.appendChild(text);
       } else {
         alert("No affected IPs found");
-        document.querySelector("pre").remove();
+        document.querySelector("pre")?.remove();
       }
     };
 
