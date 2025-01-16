@@ -27,7 +27,7 @@ async function fetchFileData() {
 
 fetchFileData().then(data => {
   if (data.size === 0)
-    document.getElementById("loading").innerText = "No data found";
+    document.getElementById("loading").innerText = "No data found, please try again later";
   else {
     document.getElementById("loading").style.display = "none";
     const textArea = document.createElement("textarea");
@@ -50,6 +50,7 @@ fetchFileData().then(data => {
 
         document.getElementById("result")?.remove();
         document.getElementById("affected-ips")?.remove();
+        document.getElementById("copy-button")?.remove();
 
         const title = document.createElement("h2");
         title.innerText = "Affected IPs";
@@ -60,6 +61,7 @@ fetchFileData().then(data => {
 
         const copyButton = document.createElement("button");
         copyButton.innerText = "Copy";
+        copyButton.id = "copy-button";
         copyButton.onclick = () => {
           navigator.clipboard.writeText(
             document.querySelector("pre").innerText
